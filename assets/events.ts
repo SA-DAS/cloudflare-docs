@@ -284,11 +284,17 @@ export function toggleSidebar() {
 export function zarazTrackDocEvents() {
   const links = document.getElementsByClassName("DocsMarkdown--link");
   const dropdowns = document.getElementsByTagName("details")
+  const glossaryTooltips = document.getElementsByClassName("glossary-tooltip")
+  const playgroundLinks = document.getElementsByClassName("playground-link")
   addEventListener("DOMContentLoaded", () => {
     if (links.length > 0) {
       for (const link of links as any) {  // Type cast to any for iteration
         if (link.hostname !== "developers.cloudflare.com") {
-          if (link.hostname.includes("cloudflare.com")) {
+          if (link.href.includes("workers.cloudflare.com/playground")) {
+            link.addEventListener("click", () => {
+              $zarazLinkEvent('playground link click', link);
+            });
+          } else if (link.hostname.includes("cloudflare.com")) {
             link.addEventListener("click", () => {
               $zarazLinkEvent('Cross Domain Click', link);
             });
@@ -307,6 +313,23 @@ export function zarazTrackDocEvents() {
         });
     }
   }
+  if (glossaryTooltips.length > 0) {
+    for (const tooltip of glossaryTooltips as any) { 
+      tooltip.addEventListener("pointerleave", () => {
+        $zarazGlossaryTooltipEvent(tooltip.getAttribute('aria-label'))
+      });
+      tooltip.addEventListener("blur", () => {
+        $zarazGlossaryTooltipEvent(tooltip.getAttribute('aria-label'))
+      });
+  }
+}
+  if (playgroundLinks.length > 0) {
+    for (const playgroundLink of playgroundLinks as any) { 
+      playgroundLink.addEventListener("click", () => {
+        $zarazLinkEvent('playground link click', playgroundLink);
+      });
+  }
+  }
   });
 }
 
@@ -318,8 +341,13 @@ function $zarazDropdownEvent(summary: string) {
   zaraz.track('dropdown click', {text: summary.innerText})
 }
 
+function $zarazGlossaryTooltipEvent(term: string) {
+  zaraz.track('glossary tooltip view', {term: term})
+}
+
 export function zarazTrackHomepageLinks() {
   const links = document.getElementsByClassName("DocsMarkdown--link");
+  const playgroundLinks = document.getElementsByClassName("playground-link")
   addEventListener("DOMContentLoaded", () => {
     if (links.length > 0) {
       for (const link of links as any) {  // Type cast to any for iteration
@@ -327,6 +355,13 @@ export function zarazTrackHomepageLinks() {
           zaraz.track('homepage link click', {href: link.href})
         });
       } 
+    }
+    if (playgroundLinks.length > 0) {
+      for (const playgroundLink of playgroundLinks as any) { 
+        playgroundLink.addEventListener("click", () => {
+          $zarazLinkEvent('playground link click', playgroundLink);
+        });
+    }
     }
   });
 }

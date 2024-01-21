@@ -2,7 +2,6 @@
 pcx_content_type: how-to
 title: Managed networks
 weight: 3
-layout: single
 ---
 
 # Add a managed network
@@ -173,10 +172,10 @@ To check if the WARP client detects the network location:
 
 1. Turn on WARP.
 2. Disconnect and reconnect to the network.
-3. Open a terminal and run `warp-cli get-alternate-network`.
+3. Open a terminal and run `warp-cli debug alternate-network`.
 
 {{<Aside type="note">}}
 The WARP client scans all managed networks on the list every time it detects a network change event from the operating system. To minimize performance impact, we recommend reusing the same TLS endpoint across multiple locations unless you require distinct settings profiles for each location.
-  
+
 If multiple managed networks are configured and reachable, the first managed network to respond is used when determining which WARP settings profile the device should receive.
 {{</Aside>}}

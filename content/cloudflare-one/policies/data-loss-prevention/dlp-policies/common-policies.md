@@ -2,7 +2,6 @@
 pcx_content_type: reference
 title: Common policies
 weight: 1
-layout: single
 meta:
     title: Common DLP policies
 ---
@@ -28,7 +27,7 @@ The **Allow** action functions as an implicit logger, providing visibility into 
 | ------ |
 | Allow  |
 
-{{<render file="gateway/_block-file-types.md">}}
+{{<render file="gateway/policies/_block-file-types.md">}}
 
 ## Block uploads/downloads for specific users
 
